@@ -35,28 +35,40 @@ def interpolate_and_filter(df, columns):
     time_columns = [col+" time" for col in columns]
     min_time = mintime(df[time_columns].min().max())
     max_time = maxtime(df[time_columns].max().min())
-    print('LOGGER  ',min_time, max_time)
     time_series = np.arange(min_time, max_time, 5)
     filter_time_series = np.arange(min_time, max_time, 1/10)
     df_pt = {}
     df_pt['time'] = time_series
-    for column in columns:
+    for column in columns:            
         df_col = df[[column, column+" time"]].dropna()
-        df_col.sort_values(by=column+" time", inplace=True)
-        df_col[column].iloc[0] = df_col[column].iloc[1]
-        s = inter.interp1d(df_col[column+" time"], df_col[column])
-        df_pt[column+'RAW'] = s(time_series)
-        filter_T = butter_lowpass_filter(s(filter_time_series))
-        s = inter.interp1d(filter_time_series, filter_T)
-        df_pt[column] = s(time_series)
+        if len(df_col[column]) != 0: 
+            df_col.sort_values(by=column+" time", inplace=True)
+            df_col[column].iloc[0] = df_col[column].iloc[1]
+            s = inter.interp1d(df_col[column+" time"], df_col[column])
+            df_pt[column+'RAW'] = s(time_series)
+            filter_T = butter_lowpass_filter(s(filter_time_series))
+            s = inter.interp1d(filter_time_series, filter_T)
+            df_pt[column] = s(time_series)
+        else:
+            df_pt[column] = 0
+            df_pt[column+"RAW"] = 0
+
     df_pt = pd.DataFrame(df_pt, index=df_pt['time'])
     df_pt = df_pt.drop('time',1)
-    return df
+    return df_pt
 
-files_to_process = []
-columns_to_include = ['T19', 'T18', 'T20', 'T16', 'T17','T23','T21','T22','T24','T25','T26','T27','T28']
+target_folder = r"C:\Users\jamen\Google Drive\Everything\Results\P1\HeatFlux Sensor\\"
+files_to_process = ['Test1_1_rep1','Test1_2_rep1','Test1_3_rep1','Test1_4_rep1',
+'Test1_5_rep1','Trial1', 'Trial2','JetControlDoorOpen240Fan','JetControlDoorOpen100C']
+
+columns_to_include = []
+for x in range(32):
+    columns_to_include.append("T"+str(x))
+
+#columns_to_include = ['T19', 'T18', 'T20', 'T16', 'T17','T23','T21','T22','T24','T25','T26','T27','T28','T11','T12','T13','T14','T15','T19', 'T18', 'T20', 'T16', 'T17','T23','T21','T22','T24','T25','T26','T27','T28']
 
 for files in files_to_process:
-    df = pd.read_csv(files+".csv")
+    df = pd.read_csv(target_folder+"Raw\\"+files+".csv")
     df = interpolate_and_filter(df, columns_to_include)
-    df.write_feather(files+"processed.feather")   
+    df.reset_index(inplace=True)
+    df.to_feather(target_folder+"Processed\\"+files+".feather")   
