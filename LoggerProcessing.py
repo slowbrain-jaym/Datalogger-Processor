@@ -54,7 +54,7 @@ def interpolate_and_filter(df, columns):
             df_pt[column+"RAW"] = 0
 
     df_pt = pd.DataFrame(df_pt, index=df_pt['time'])
-    df_pt = df_pt.drop('time',1)
+    df_pt['time'] = df_pt['time'] - min(df_pt['time'])
     return df_pt
 
 target_folder = r"C:\Users\jamen\Google Drive\Everything\Results\P1\HeatFlux Sensor\\"
