@@ -32,7 +32,6 @@ def partial_derivative2d(function, x, y, dx, dy):
 def interpolate_and_filter(df, columns):
     """Interpolates and filters dataframe temperature values, returns the "RAW" 
     interpolated values and low pass filtered values"""
-    #columns = ['T0']
     time_columns = [col+" time" for col in columns]
     min_time = mintime(df[time_columns].min().max())
     max_time = maxtime(df[time_columns].max().min())
@@ -45,18 +44,14 @@ def interpolate_and_filter(df, columns):
         df_col = df[[column, column+" time"]].dropna()
         df_col.sort_values(by=column+" time", inplace=True)
         df_col[column].iloc[0] = df_col[column].iloc[1]
-        #print df_col[column]
         s = inter.interp1d(df_col[column+" time"], df_col[column])
         df_pt[column+'RAW'] = s(time_series)
         filter_T = butter_lowpass_filter(s(filter_time_series))
         s = inter.interp1d(filter_time_series, filter_T)
         df_pt[column] = s(time_series)
-        #df_pt[column+'d/dt'] = s.derivative(1)(time_series)
     df_pt = pd.DataFrame(df_pt, index=df_pt['time'])
     df_pt = df_pt.drop('time',1)
     return df
-
-
 
 files_to_process = []
 columns_to_include = ['T19', 'T18', 'T20', 'T16', 'T17','T23','T21','T22','T24','T25','T26','T27','T28']

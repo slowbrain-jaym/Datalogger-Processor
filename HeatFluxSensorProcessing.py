@@ -16,3 +16,5 @@ def heat_flux_sensor_calculation(df, sensor_information, boundary_TC):
     df['total energy'] = df['perspex energy']+df['ali energy']
     df['flux'] = df['total energy'].diff(1)/5.0
     df['HTC'] = df['flux']/(df[boundary_TC] - df[HeatFluxTCs[1][0]])
+    return df
+
