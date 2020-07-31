@@ -29,42 +29,6 @@ def partial_derivative2d(function, x, y, dx, dy):
     value2 = function(x+dx/2, y+dy/2)
     return (value2-value1)/np.sqrt(dx**2+dy**2)
     
-def CloughTocher2d_interpolator(xref, yref, vals):
-    """ 2d interpolation (requires Scipy).
-     
-    This is a convenience wrapper around
-    scipy.interpolation.CloughTocher2Dinterpolator, that saves you
-    having to worry about using meshgrid.
- 
-    Parameters
-    ----------
-    xref, yref : array of floats, shapes (J,), (I,)
-      Reference coordinate grid. The grid must be equally spaced along
-      each direction, but the spacing can be different between
-      directions.
-    vals : array of floats, shape (I, J)
-      Reference values at the reference grid positions.
- 
-    Returns
-    -------
-    interpolator: CloughTocher2DInterpolater instance
-      Object that accepts a (y,x) tuple (note reversed order from the
-      input to this function!) and returns the interpolated value.
- 
-    See Also
-    --------
-    barak.plot.arrplot for plotting the reference and interpolated arrays.
-    """
- 
-    assert (len(yref), len(xref)) == vals.shape
-    XREF,YREF = np.meshgrid(xref, yref)
-    
-    interpolator = inter.CloughTocher2DInterpolator((XREF.ravel(), YREF.ravel()),
-                                              vals.ravel())
- 
-    return interpolator
-    
-
 def interpolate_and_filter(df, columns):
     """Interpolates and filters dataframe temperature values, returns the "RAW" 
     interpolated values and low pass filtered values"""
@@ -91,6 +55,8 @@ def interpolate_and_filter(df, columns):
     df_pt = pd.DataFrame(df_pt, index=df_pt['time'])
     df_pt = df_pt.drop('time',1)
     return df
+
+
 
 files_to_process = []
 columns_to_include = ['T19', 'T18', 'T20', 'T16', 'T17','T23','T21','T22','T24','T25','T26','T27','T28']
