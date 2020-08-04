@@ -59,7 +59,9 @@ def interpolate_and_filter(df, columns):
 
 target_folder = r"C:\Users\jamen\Google Drive\Everything\Results\P1\HeatFlux Sensor\\"
 files_to_process = ['Test1_1_rep1','Test1_2_rep1','Test1_3_rep1','Test1_4_rep1',
-'Test1_5_rep1','Trial1', 'Trial2','JetControlDoorOpen240Fan','JetControlDoorOpen100C',"Conv150_1_1","Conv150_1_2","Conv150_2_1","Conv150_2_2",]
+'Test1_5_rep1','Trial1', 'Trial2','JetControlDoorOpen240Fan','JetControlDoorOpen100C',
+"Conv150_1_1","Conv150_1_2","Conv150_2_1","Conv150_2_2","Conv150_3_1","Conv150_3_2","Conv150_4_1","Conv150_4_2",
+"Conv150_6_1","Conv150_6_2"]
 
 columns_to_include = []
 for x in range(32):
