@@ -64,7 +64,8 @@ files_to_process = ['Test1_1_rep1','Test1_2_rep1','Test1_3_rep1','Test1_4_rep1',
 "Conv150_6_1","Conv150_6_2",
 "Conv250_1_1","Conv250_1_2","Conv250_2_1","Conv250_2_2","Conv250_3_1","Conv250_3_2","Conv250_4_1","Conv250_4_2","Conv250_6_1",
 "Conv200_1_1","Conv200_1_2","Conv200_2_1","Conv200_2_2","Conv200_3_1","Conv200_3_2","Conv200_4_1","Conv200_4_2","Conv200_6_1","Conv200_6_2",
-"LowE200_1_1","LowE200_1_2","LowE200_2_1"]
+"LowE200_1_1","LowE200_1_2","LowE200_2_1","LowE200_2_2","LowE200_3_1", "LowE200_3_2","LowE200_4_1","LowE200_4_2","LowE200_6_1","LowE200_6_2",
+"LowE150_1_1","LowE150_1_2","LowE150_2_1","LowE150_2_2","LowE150_3_1", "LowE150_3_2","LowE150_4_1","LowE150_4_2","LowE150_6_1","LowE150_6_2"]
 
 columns_to_include = []
 for x in range(32):
